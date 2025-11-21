@@ -1,0 +1,40 @@
+<div class=" py-8!  ">
+    <div>
+
+
+        <div>
+            <span class="text-2xl text-center! mb-2  text-[#0055a5]! border-b! border-[#0055a5]!">User
+                Information</span>
+
+
+
+            <div class=" flex! flex-col! items-start! text-gray-800 mt-10 ml-4!">
+
+
+                <div>
+                    <p><strong class="font-semibold mr-1 ">Nome:</strong> {{ user?.name }}</p>
+                </div>
+
+                <div>
+                    <p><strong class="font-semibold  mr-1 ">Email:</strong> {{ user?.email }}</p>
+                </div>
+
+                <div>
+                    <p><strong class="font-semibold  mr-1  ">Genere:</strong> {{ user?.gender }}</p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <strong class="font-semibold">Status:</strong>
+
+                    <span class=" py-1 rounded-full text-sm capitalize" [ngClass]="{
+              ' text-green-700': user?.status === 'active',
+              ' text-red-700': user?.status === 'inactive'
+            }">
+                        {{ user?.status }}
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>

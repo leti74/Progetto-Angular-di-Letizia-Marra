@@ -1,0 +1,45 @@
+<mat-card class="border-none bg-transparent shadow-none">
+
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ post.title }}</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">{{ post.body }}</p>
+
+    <mat-expansion-panel class="rounded-lg shadow-sm border border-gray-200">
+
+        <mat-expansion-panel-header>
+            <mat-panel-title class="text-[#0055a5]">
+                Comments ({{ post.comments?.length || 0 }})
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="px-4 py-4 bg-gray-50">
+
+            <!-- Commenti -->
+            <div *ngFor="let comment of post.comments">
+                <div class="mb-4 px-3 py-2 bg-gray-200 rounded flex justify-between items-center">
+                    <p class="text-gray-800 text-sm">
+                        <strong>{{ comment.name }}:</strong> {{ comment.body }}
+                    </p>
+
+                    <button *ngIf="comment.email === 'you@example.com'" mat-icon-button color="warn"
+                        (click)="deleteComment(comment.id!)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form nuovo commento -->
+            <form [formGroup]="commentForm" class="px-2 mt-4">
+
+                <input formControlName="body" placeholder="Write a comment..."
+                    class="bg-gray-100 w-full px-4 py-2 mb-2 border border-gray-300 rounded focus:outline-none" />
+
+                <button mat-raised-button color="primary" (click)="addComment()">
+                    Send
+                </button>
+
+            </form>
+
+        </div>
+
+    </mat-expansion-panel>
+</mat-card>

@@ -1,0 +1,42 @@
+<div class="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-7">
+
+    @for (user of users; track user.id) {
+    <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col justify-between">
+
+        <div class="mb-4">
+            <h3 class="text-2xl font-semibold text-[#0055a5] mb-4">{{ user.name }}</h3>
+            <p class="text-gray-400 text-sm">{{ user.email }}</p>
+        </div>
+
+        <div class="mb-4 space-y-2">
+            <p><strong>Gender:</strong> <span class="text-gray-400 ml-1">{{ user.gender }}</span></p>
+            <p>
+                <strong>Status:</strong>
+                <span class=" py-1 rounded-full text-white text-sm
+                    {{ user.status === 'active' ? 'text-green-500!' : 'text-rose-500!' }}">
+                    {{ user.status }}
+                </span>
+            </p>
+        </div>
+
+        <div class="flex gap-3 mt-auto">
+            <button class="p-2 rounded-lg hover:bg-gray-200 transition" (click)="goToUserDetail(user.id)">
+                <mat-icon class="text-[#0055a5]">visibility</mat-icon>
+            </button>
+
+            <button class="p-2 rounded-lg hover:bg-red-100 transition" (click)="deleteUser(user.id, $event)">
+                <mat-icon class="text-red-600">delete</mat-icon>
+            </button>
+        </div>
+
+    </div>
+    }
+
+</div>
+
+@if (!users.length) {
+<div class="no-data flex items-center justify-center mt-10 text-gray-500 space-x-2">
+    <mat-icon>info</mat-icon>
+    <p>No users found</p>
+</div>
+}
