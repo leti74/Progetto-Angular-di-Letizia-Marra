@@ -7,6 +7,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 import { AuthService } from '../../../auth/auth-service';
 import { Router, RouterModule } from '@angular/router';
+import { UsersServices } from '../../../services/users-service';
+import { User } from '../../../models/user.model';
 
 
 @Component({
@@ -18,7 +20,7 @@ import { Router, RouterModule } from '@angular/router';
 export class LoginComponent implements OnInit {
 
 
-constructor(private authService: AuthService, private router: Router){}
+constructor(private authService: AuthService, private router: Router, private userService:UsersServices){}
 
 loginForm!: FormGroup;
 errorMsg= '';
@@ -32,21 +34,28 @@ this.loginForm = new FormGroup(
 )
 }
 
+
 onLogin(){
-  
   const token = this.loginForm.value.token
 
   if(!token){
 this.errorMsg= 'Please enter a valid token'
+return
   }
+
   this.loading = true;
   this.errorMsg = '';
-
   this.authService.validateToken(token).subscribe((res)=>{
 if(res){
+
   
   this.authService.saveToken(token);
-  this.router.navigate(['users'])
+  this.authService.createUserCurrent().subscribe(() => {
+    this.router.navigate(['users']);
+  })
+  
+
+ 
 }else{
   this.loading= false;
   this.errorMsg = 'Invalid token. Please check and try again.'

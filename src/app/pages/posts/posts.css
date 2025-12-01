@@ -1,0 +1,11 @@
+.posts-page label {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+}
+.posts-page {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

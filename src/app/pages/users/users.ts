@@ -41,18 +41,18 @@ export class Users implements OnInit {
   constructor(private usersService: UsersServices, private router: Router, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-   
     this.usersForm = new FormGroup({
-      nameEmail: new FormControl('')
+      nameEmail: new FormControl(''),
+      forPage: new FormControl(10)
     });
+    
+    this.loadUsers()
+
+    this.usersForm.get('forPage')?.valueChanges.subscribe(()=> {
+      this.loadUsers()
+    })
 
   
-    this.usersService.getUsers().subscribe((data) => {
-      this.allUsers = data;
-      this.users.set(data);
-    });
-
-    
     this.usersForm.get('nameEmail')?.valueChanges
       .pipe(
         debounceTime(300),         
@@ -76,6 +76,15 @@ export class Users implements OnInit {
       });
   }
 
+  loadUsers(page: number = 1){
+    const forPage= this.usersForm.get('forPage')?.value || 10
+    this.usersService.getUsers(page, forPage).subscribe(users => {
+      this.allUsers=users
+      this.users.set(users)
+    })
+
+  }
+
   goToUserDetail(id: number) {
     this.router.navigate(['user', id]);
   }
@@ -85,11 +94,17 @@ export class Users implements OnInit {
       width:'400px'
     })
 
+
     dialogRef.afterClosed().subscribe((result)=>{
       if(result){
         console.log(result)
-        this.usersService.addUser(result).subscribe((newUser: any)=>{
-          this.users.set([...this.users(), newUser])
+        this.usersService.addUser(result).subscribe((newUser: User| null)=>{
+          if(newUser){
+            const updatedUsers = [newUser, ...this.users()];
+            this.allUsers = updatedUsers; 
+            this.users.set(updatedUsers);
+          }
+          
         })
       }
     })

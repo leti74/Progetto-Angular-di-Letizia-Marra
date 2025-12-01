@@ -1,0 +1,21 @@
+<h2 mat-dialog-title class="p-4">Add new post</h2>
+
+<form [formGroup]="postForm" class="flex flex-col gap-3 p-4">
+
+    <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" placeholder="Post title">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Body</mat-label>
+        <textarea matInput rows="4" formControlName="body" placeholder="Post content"></textarea>
+    </mat-form-field>
+
+    <div class="flex justify-end gap-2 mt-3">
+        <button mat-stroked-button (click)="cancel()">Cancel</button>
+        <button mat-flat-button color="primary" (click)="save()" [disabled]="postForm.invalid">
+            Save
+        </button>
+    </div>
+</form>

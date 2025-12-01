@@ -4,6 +4,7 @@ import { Observable, of, catchError, map } from 'rxjs';
 import { User } from '../models/user.model';
 import { Post } from '../models/post.model';
 import { UserComment } from '../models/comment.model';
+import { Title } from '@angular/platform-browser';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class UsersServices {
 
   constructor(private http: HttpClient) {}
 
-  // 🔐 Headers generati SEMPRE con token aggiornato
+ 
   private get authHeaders() {
     const token = localStorage.getItem('access_token') || '';
     return {
@@ -26,14 +27,12 @@ export class UsersServices {
     };
   }
 
-  // =====================
-  //   USERS
-  // =====================
+  
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseURL}/users`, this.authHeaders).pipe(
+  getUsers(page: number = 1, forPage: number = 10): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseURL}/users?page=${page}&per_page=${forPage}`, this.authHeaders).pipe(
       catchError(error => {
-        console.error('❌ Errore nel recupero utenti:', error);
+        console.error('❌ Error retrieving users:', error);
         return of([]);
       })
     );
@@ -42,17 +41,30 @@ export class UsersServices {
   getUserById(id: number): Observable<User | null> {
     return this.http.get<User>(`${this.baseURL}/users/${id}`, this.authHeaders).pipe(
       catchError(error => {
-        console.error('❌ Errore nel recupero utente:', error);
+        console.error('❌ Error retrieving user:', error);
         return of(null);
       })
     );
   }
 
+  getUserByEmail(email: string): Observable<User[]> {
+    return this.http.get<User[]>(
+      `${this.baseURL}/users?email=${email}`,
+      this.authHeaders
+    ).pipe(
+      catchError(error => {
+        console.error('❌ Error fetching user by email:', error);
+        return of([]);
+      })
+    );
+  }
+  
+
   deleteUser(id: number): Observable<boolean> {
     return this.http.delete(`${this.baseURL}/users/${id}`, this.authHeaders).pipe(
       map(() => true),
       catchError(error => {
-        console.error('❌ Errore eliminazione utente:', error);
+        console.error('❌ Error deleting user:', error);
         return of(false);
       })
     );
@@ -61,7 +73,7 @@ export class UsersServices {
   addUser(user: User): Observable<User | null> {
     return this.http.post<User>(`${this.baseURL}/users`, user, this.authHeaders).pipe(
       catchError(error => {
-        console.error('❌ Errore creazione utente:', error);
+        console.error('❌ User creation error:', error.error);
         return of(null);
       })
     );
@@ -72,7 +84,7 @@ export class UsersServices {
   getPostsByUser(userID: number): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.baseURL}/users/${userID}/posts`, this.authHeaders).pipe(
       catchError(error => {
-        console.error('❌ Errore nel recupero post utente:', error);
+        console.error('❌Error in user post recovery: ', error);
         return of([]);
       })
     );
@@ -81,7 +93,7 @@ export class UsersServices {
   getAllPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.baseURL}/posts`, this.authHeaders).pipe(
       catchError(error => {
-        console.error('❌ Errore recupero post:', error);
+        console.error('❌ Post recovery error: ', error);
         return of([]);
       })
     );
@@ -92,7 +104,7 @@ export class UsersServices {
   getCommentsByPost(postID: number): Observable<UserComment[]> {
     return this.http.get<UserComment[]>(`${this.baseURL}/posts/${postID}/comments`, this.authHeaders).pipe(
       catchError(error => {
-        console.error('❌ Errore recupero commenti:', error);
+        console.error('❌ Error retrieving comments:', error);
         return of([]);
       })
     );
@@ -101,10 +113,9 @@ export class UsersServices {
   addComment(postID: number, commentBody: string): Observable<UserComment | null> {
 
     const commentPayload= {
-      id: Math.random(),
       post_id: postID,
-      name: "You",   
-      email: "you@example.com",  
+      name: "Ganaka Arora",   
+      email: "ganaka_arora@crist.example",  
       body: commentBody
     }
     return this.http.post<UserComment>(
@@ -113,7 +124,7 @@ export class UsersServices {
       this.authHeaders
     ).pipe(
       catchError(error => {
-        console.error('❌ Errore inserimento commento:', error);
+        console.error('❌ Error inserting comment:', error);
         return of(null);
       })
     );
@@ -123,16 +134,26 @@ export class UsersServices {
     return this.http.delete(`${this.baseURL}/comments/${commentID}`, this.authHeaders).pipe(
       map(()=> true),
       catchError(error => {
-        console.error('❌ Errore eliminazione commento:', error);
+        console.error('❌ Error deleting comment:', error);
         return of(false)
       })
     )
   }
 
-  addNewPost(post: Post): Observable<Post | null>{
-return this.http.post<Post>(`${this.baseURL}/posts`, post, this.authHeaders).pipe(
+  addNewPost(data: {title: string, body: string}): Observable<Post | null>{
+
+    const userCurrent= ()=>{ 
+      const userCurrentId = localStorage.getItem('user_current');
+    return userCurrentId ? JSON.parse(userCurrentId): null}
+    
+    const postPayload= {
+      title: data.title,
+      body: data.body,
+      user_id: userCurrent().id,
+    }
+return this.http.post<Post>(`${this.baseURL}/posts`, postPayload, this.authHeaders).pipe(
   catchError(error => {
-    console.error('❌ Errore creazione nuovo post:', error)
+    console.error('❌ Error creating new post:', error)
     return of(null)
   })
 )
