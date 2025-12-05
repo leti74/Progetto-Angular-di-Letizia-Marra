@@ -4,7 +4,7 @@ import { Observable, of, catchError, map } from 'rxjs';
 import { User } from '../models/user.model';
 import { Post } from '../models/post.model';
 import { UserComment } from '../models/comment.model';
-import { Title } from '@angular/platform-browser';
+
 
 
 @Injectable({
@@ -112,12 +112,16 @@ export class UsersServices {
 
   addComment(postID: number, commentBody: string): Observable<UserComment | null> {
 
-    const commentPayload= {
+    const userCurrentId = localStorage.getItem('user_current');
+    const userObj = userCurrentId ? JSON.parse(userCurrentId) : null;
+  
+    const commentPayload = {
       post_id: postID,
-      name: "Ganaka Arora",   
-      email: "ganaka_arora@crist.example",  
+      name: userObj?.name ?? "Unknown",
+      email: userObj?.email ?? "unknown@example.com",
       body: commentBody
-    }
+    };
+  
     return this.http.post<UserComment>(
       `${this.baseURL}/posts/${postID}/comments`,
       commentPayload,
@@ -129,6 +133,7 @@ export class UsersServices {
       })
     );
   }
+  
 
   deleteComment(commentID: number): Observable<boolean>{
     return this.http.delete(`${this.baseURL}/comments/${commentID}`, this.authHeaders).pipe(

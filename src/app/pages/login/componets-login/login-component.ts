@@ -45,22 +45,23 @@ return
 
   this.loading = true;
   this.errorMsg = '';
-  this.authService.validateToken(token).subscribe((res)=>{
-if(res){
 
-  
-  this.authService.saveToken(token);
-  this.authService.createUserCurrent().subscribe(() => {
-    this.router.navigate(['users']);
-  })
-  
+this.authService.validateToken(token).subscribe({
+  next: (res) => {
+    if (res) {
+      this.authService.saveToken(token);
+      this.authService.createUserCurrent().subscribe(() => {
+        this.router.navigate(['users']);
+      });
+    } else {
+      this.loading = false;
+      this.errorMsg = 'Invalid token. Please check and try again.';
+    }
+  },
+  error: () => {
+    this.loading = false;
+    this.errorMsg = 'Invalid token. Please check and try again.';
+  }
+});
 
- 
-}else{
-  this.loading= false;
-  this.errorMsg = 'Invalid token. Please check and try again.'
-}
-  })
-
-}
-}
+}}

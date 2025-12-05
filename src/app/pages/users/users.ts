@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
+
 import { CommonModule } from '@angular/common';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -24,7 +24,6 @@ import { AddUserDialog } from './componets-users/add-user-dialog/add-user-dialog
     ReactiveFormsModule, 
     MatButtonModule, 
     MatCardModule, 
-    MatIcon, 
     CommonModule, 
     Button, 
     UserCard
@@ -90,7 +89,7 @@ export class Users implements OnInit {
   }
 
   addUser() {
-    const dialogRef = this.dialog.open(AddUserDialog, {
+    const dialogRef = this.dialog.open<any>(AddUserDialog, {
       width:'400px'
     })
 

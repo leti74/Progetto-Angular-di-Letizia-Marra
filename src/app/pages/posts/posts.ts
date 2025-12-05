@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddPostDialog } from './components-posts/add-post-dialog/add-post-dialog';
 @Component({
   selector: 'app-posts',
-  imports: [PostItem, Button, ReactiveFormsModule],
+  imports: [PostItem, ReactiveFormsModule, Button],
   templateUrl: './posts.html',
   styleUrl: './posts.css',
 })
@@ -43,11 +43,7 @@ export class Posts implements OnInit {
   let completed = 0
       this.posts.forEach((post) => {
 
-        this.usersService.getUserById(post.user_id).subscribe(user => {
-          post.userName = user?.name ?? 'Unknown';
-        });
-
-
+        
         this.usersService.getCommentsByPost(post.id).subscribe((comments) => {
           post.comments = comments;
           completed++

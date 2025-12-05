@@ -13,7 +13,6 @@ import { UsersServices } from '../../services/users-service';
 
 @Component({
   selector: 'app-post-item',
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,
