@@ -1,109 +1,81 @@
-<mat-card class=" border-none! bg-transparent! shadow-none! p-5">
+<div class="pb-10! bg-gray-100! p-6! rounded-xl!">
+
+    <h3 class="text-lg! font-semibold! text-gray-900! mt-2">{{ post.title }}</h3>
+    <p class="text-gray-700! leading-relaxed! mb-4!">{{ post.body }}</p>
+
+    <mat-expansion-panel class="comment-panel">
 
 
-    <mat-card-content class="flex! flex-col! gap-5!  ">
+        <mat-expansion-panel-header class="px-4! py-2!">
+            <mat-panel-title class="font-medium! text-[#0055a5]!">
+                Comments ({{ post.comments?.length || 0 }})
+            </mat-panel-title>
+        </mat-expansion-panel-header>
 
+        <div class="px-4! py-4! bg-gray-50! comment-content">
 
-        <div class="pb-10! bg-gray-100! p-6! rounded-xl! ">
+            @if ((post.comments?.length ?? 0) > 0) {
 
-            <p class="text-[#0066cc] py-3">{{post.userName}}</p>
+            <div class="comment-list">
+                @for (comment of post.comments; track comment.id) {
+                <div class="comment-item">
+                    <p class="text-gray-800! text-sm! break-words! mb-5">
+                        <strong>{{ comment.email }}:</strong> {{ comment.body }}
+                    </p>
 
-            <h3 class="text-lg! font-semibold! text-gray-900!  mt-2">{{ post.title }}</h3>
-            <p class="text-gray-700! leading-relaxed! mb-4!">{{ post.body }}</p>
-
-            <mat-expansion-panel
-                class="rounded-lg! shadow-sm! hover:shadow-md! transition-shadow! duration-200 border! border-gray-200 max-w-4xl">
-
-                <mat-expansion-panel-header class="px-4! py-2!">
-                    <mat-panel-title class="font-medium! text-[#0055a5]!">
-                        Comments ({{ post.comments?.length || 0 }})
-                    </mat-panel-title>
-                </mat-expansion-panel-header>
-
-                <div class="px-4! py-4! bg-gray-50!">
-
-
-                    @if ((post.comments?.length ?? 0) > 0) {
-
-                    <div class="flex flex-row gap-6">
-
-
-                        <div class="flex flex-col flex-1 max-h-[350px] overflow-auto pr-2">
-                            @for (comment of post.comments; track comment.id) {
-                            <div
-                                class="mb-4! px-3! py-2! bg-gray-200! rounded-l! shadow-sm! flex! justify-between! items-center!">
-                                <p class="text-gray-800! text-sm!">
-                                    <strong>{{ comment.email }}:</strong> {{ comment.body }}
-                                </p>
-
-                                @if (comment.email === 'ganaka_arora@crist.example') {
-                                <button mat-icon-button class="warn" (click)="deleteComment(comment.id!)">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                                }
-                            </div>
-                            }
-                        </div>
-
-
-                        <div class="p-5! bg-gray-200! border! border-gray-300! rounded-sm! shadow-inner! w-[300px]">
-                            <form [formGroup]="commentForm" class="flex! flex-col! gap-4!">
-
-                                <div class="flex! flex-col!">
-                                    <label class="mb-5! text-gray-700! font-medium!">New comment</label>
-
-                                    <input formControlName="body" placeholder="Write a comment..." class="bg-gray-100! w-full! px-4! py-2! mb-2 border! border-gray-300! rounded-lg!
-                     focus:outline-none! focus:ring-[#0055a5]/40! 
-                     focus:border-[#0055a5]! transition!" />
-                                </div>
-
-                                <button mat-raised-button color="primary" class="bg-[#0055a5]! hover:bg-[#004080]! text-white!
-                   px-5! py-2! rounded-lg! shadow! transition!" (click)="addComment(post.id)">
-                                    Send
-                                </button>
-
-                            </form>
-                        </div>
-
-                    </div>
-
-                    }
-
-
-                    @else {
-
-                    <div class="text-center text-gray-600 mb-4 font-medium">
-                        No comments yet — be the first to write one!
-                    </div>
-
-                    <div class="p-5! bg-gray-200! border! border-gray-300! rounded-sm! shadow-inner! max-w-xl mx-auto">
-                        <form [formGroup]="commentForm" class="flex! flex-col! gap-4!">
-
-                            <div class="flex! flex-col!">
-                                <label class="mb-5! text-gray-700! font-medium!">New comment</label>
-
-                                <input formControlName="body" placeholder="Write a comment..." class="bg-gray-100! w-full! px-4! py-2! mb-2 border! border-gray-300! rounded-lg!
-                   focus:outline-none! focus:ring-[#0055a5]/40! 
-                   focus:border-[#0055a5]! transition!" />
-                            </div>
-
-                            <button mat-raised-button color="primary" class="bg-[#0055a5]! hover:bg-[#004080]! text-white!
-                 px-5! py-2! rounded-lg! shadow! transition!" (click)="addComment(post.id)">
-                                Send
-                            </button>
-
-                        </form>
-                    </div>
-
-                    }
                 </div>
+                }
+            </div>
 
-            </mat-expansion-panel>
+            <div class="comment-form-wrapper">
+                <form [formGroup]="commentForm" class="flex! flex-col! gap-4! comment-form">
 
+                    <div class="flex! flex-col!">
+                        <label class="mb-3! text-gray-700! font-medium!">New comment</label>
+                        <input formControlName="body" placeholder="Write a comment..."
+                            class="bg-gray-100! w-full! px-4! py-2! border! border-gray-300! rounded-lg! focus:outline-none! focus:ring-[#0055a5]/40! focus:border-[#0055a5]! transition!" />
+                    </div>
 
+                    <button mat-raised-button color="primary"
+                        class="bg-[#0055a5]! hover:bg-[#004080]! text-white! px-5! py-2! rounded-lg! shadow! transition!"
+                        (click)="addComment(post.id)">
+                        Send
+                    </button>
+
+                </form>
+            </div>
+
+            }
+
+            @else {
+
+            <div class="text-center text-gray-600! mb-4! font-medium!">
+                No comments yet — be the first to write one!
+            </div>
+
+            <div class="comment-form-wrapper max-w-xl mx-auto">
+                <form [formGroup]="commentForm" class="flex! flex-col! gap-4! comment-form">
+
+                    <div class="flex! flex-col!">
+                        <label class="mb-5! text-gray-700! font-medium!">New comment</label>
+                        <input formControlName="body" placeholder="Write a comment..."
+                            class="bg-gray-100! w-full! px-4! py-2! mb-2 border! border-gray-300! rounded-lg! focus:outline-none! focus:ring-[#0055a5]/40! focus:border-[#0055a5]! transition!" />
+                    </div>
+
+                    <button mat-raised-button color="primary"
+                        class="bg-[#0055a5]! hover:bg-[#004080]! text-white! px-5! py-2! rounded-lg! shadow! transition!"
+                        (click)="addComment(post.id)">
+                        Send
+                    </button>
+
+                </form>
+            </div>
+
+            }
 
         </div>
 
-    </mat-card-content>
 
-</mat-card>
+    </mat-expansion-panel>
+
+</div>

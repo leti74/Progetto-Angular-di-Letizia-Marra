@@ -1,8 +1,9 @@
 .users-page {
   padding: 1.5rem;
+  padding-top: 2.3rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .users-toolbar {
@@ -18,13 +19,6 @@
 .search-field {
   flex: 1;
   min-width: 250px;
-}
-
-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
 }
 
 @media (max-width: 600px) {

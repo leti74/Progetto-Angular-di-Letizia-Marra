@@ -76,8 +76,6 @@ describe('Posts', () => {
     expect(component).toBeTruthy();
   });
 
- 
-
 
   
   it('should apply filters', fakeAsync(() => {

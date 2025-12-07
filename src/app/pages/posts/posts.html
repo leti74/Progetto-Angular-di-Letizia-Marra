@@ -1,47 +1,49 @@
 <div class="posts-page ">
 
+    <div>
+        <form [formGroup]="postsForm" class=" flex! flex-wrap! flex-row! gap-3! items-center! pr-10! pl-7! mb-10!">
 
-    <form [formGroup]="postsForm" class="flex flex-row gap-3 items-center pr-10 pl-7 mb-5">
+
+            <div class=" flex flex-col gap-2">
+                <label>Search post</label>
+
+                <input type="text" formControlName="searchText" placeholder="Title or body"
+                    class="px-4! py-2! border! border-gray-300! rounded-lg! outline-0" />
+            </div>
 
 
-        <div class=" flex flex-col gap-2">
-            <label>Search post</label>
+            <div class="flex flex-col gap-2">
+                <label>Posts per page</label>
 
-            <input type="text" formControlName="searchText" placeholder="Title or body"
-                class="px-4! py-2! border! border-gray-300! rounded-lg! outline-0" />
+                <select formControlName="forPage" class="px-4! py-2! border! border-gray-300! rounded-lg! outline-0">
+                    <option [value]="5">5</option>
+                    <option [value]="10">10</option>
+                    <option [value]="25">25</option>
+                    <option [value]="50">50</option>
+                </select>
+            </div>
+
+
+            <div class="flex flex-row gap-3">
+
+
+                <app-button class="button mt-7" label="Add Post" icon="note-add" (btnClick)="addPost()">
+                </app-button>
+            </div>
+
+        </form>
+
+
+
+        <div class="flex flex-col mt-7 gap-10 px-3">
+            @for (post of posts; track post.id) {
+            @if(posts){
+            <app-post-item [post]="post"></app-post-item>} @else {
+            <p>No Posts pubblished</p>
+            }
+            }
         </div>
-
-
-        <div class="flex flex-col gap-2">
-            <label>Posts per page</label>
-
-            <select formControlName="forPage" class="px-4! py-2! border! border-gray-300! rounded-lg! outline-0">
-                <option [value]="5">5</option>
-                <option [value]="10">10</option>
-                <option [value]="25">25</option>
-                <option [value]="50">50</option>
-            </select>
-        </div>
-
-
-        <div class="flex flex-row gap-3">
-
-
-            <app-button class="button mt-7" label="Add Post" icon="note-add" (btnClick)="addPost()">
-            </app-button>
-        </div>
-
-    </form>
-
-
-
-    <div class="posts-list">
-        @for (post of posts; track post.id) {
-        @if(posts){
-        <app-post-item [post]="post"></app-post-item>} @else {
-        <p>No Posts</p>
-        }
-        }
     </div>
+
 
 </div>
