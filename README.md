@@ -9,9 +9,12 @@ GitHub
 
 - Angular 20.1.3 (generato con Angular CLI)
 - Angular HTTP Client (comunicazione con API)
+- Angular Router (gestione della navigazione tra pagine)
 - Angular Material (componenti UI)
+- RxJS (gestione di Observable e operazioni asincrone)
 - TypeScript, HTML, CSS/SCSS per frontend
 - REST API, GoRest, per backend (l’app comunica con servizi esterni per utenti, post e commenti.)
+- Jasmine + Karma (per testing)
 
 ## **Struttura del progetto**
 
