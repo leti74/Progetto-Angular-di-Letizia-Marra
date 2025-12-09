@@ -1,6 +1,4 @@
-#Progetto Angular per Gestione Utenti & Post via API
-
-Progetto Angular – Dashboard utenti/post
+# Progetto Angular – Dashboard utenti/post
 
 ## **Descrizione del progetto**
 
