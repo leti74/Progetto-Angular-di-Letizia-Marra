@@ -1,59 +1,114 @@
-# ProgettoAngularDiLetiziaMarra
+#Progetto Angular per Gestione Utenti & Post via API
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
+Progetto Angular – Dashboard utenti/post
 
-## Development server
+## **Descrizione del progetto**
 
-To start a local development server, run:
+Questo progetto è una dashboard frontend realizzata con Angular (versione 20.1.3) che consente di gestire utenti e post tramite integrazione con le REST-API di GoRest. L’app include: autenticazione via token, operazioni CRUD (creazione, lettura, aggiornamento, cancellazione), ricerca, e gestione dei commenti su post.
+GitHub
 
-```bash
-ng serve
-```
+## **Librerie & Tecnologie Usate**
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Angular 20.1.3 (generato con Angular CLI)
+- Angular HTTP Client (comunicazione con API)
+- Angular Material (componenti UI)
+- TypeScript, HTML, CSS/SCSS per frontend
+- REST API, GoRest, per backend (l’app comunica con servizi esterni per utenti, post e commenti.)
 
-## Code scaffolding
+## **Struttura del progetto**
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Alla root del progetto trovi file di configurazione standard di Angular: angular.json, package.json, tsconfig.json, etc.
 
-```bash
-ng generate component component-name
-```
+La cartella src/ contiene il codice sorgente dell’app Angular; la struttura tipica include componenti, servizi, moduli, template, stili.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## **Funzionalità dell’applicazione**
 
-```bash
-ng generate --help
-```
+Attualmente l’app consente:
 
-## Building
+- Autenticazione tramite token verso API (login / validazione)
+- Creazione, lettura, modifica e cancellazione di utenti e post
+- Ricerca utenti / post
+- Visualizzazione dettagli utenti
+- Gestione commenti su post (creazione / visualizzazione)
+- Navigazione multipagina (via router Angular)
+- Interfaccia frontend web (form, liste, tabelle o card, dettagli)
 
-To build the project run:
+## **Come configurare e avviare l’app in locale**
 
-```bash
-ng build
-```
+Per eseguire il progetto localmente, segui questi passi:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+`git clone https://github.com/leti74/`
+`Progetto-Angular-di-Letizia-Marra.git`
+`cd Progetto-Angular-di-Letizia-Marra`
+`npm install`
+`ng serve`
 
-## Running unit tests
+Apri il browser a:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+http://localhost:4200/
 
-```bash
-ng test
-```
+L’app si ricaricherà automaticamente ad ogni modifica del sorgente.
+GitHub
 
-## Running end-to-end tests
+Per build di produzione:
 
-For end-to-end (e2e) testing, run:
+`ng build`
 
-```bash
-ng e2e
-```
+Per generare nuovi componenti / moduli / servizi (scaffolding Angular CLI):
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+`ng generate component nome-componente`
+`ng generate service nome-servizio`
 
-## Additional Resources
+## **Approfondimenti: come è stata sviluppata l’app**
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+La logica di interazione con API esterne (GoRest) è gestita tramite servizi Angular — per garantire separazione di responsabilità (UI / dati).
+
+Componenti modulari + routing per gestire le varie viste (lista utenti, dettaglio, post, commenti, login).
+
+Uso di HTTP requests per comunicazione con backend esterno (GET, POST, DELETE).
+
+Tipizzazione con TypeScript per modelli di “utente”, “post”, “commento”: facilita manutenzione e riduce errori runtime.
+
+Struttura ordinata: separazione fra codice UI (componenti), logica dati (servizi), configurazioni e assets — buona per scalabilità e collaborazioni.
+
+## **Struttura Dati / Modelli**
+
+export interface User {
+id: number;
+name: string;
+email: string;
+gender: string;
+status: string;
+}
+
+export interface Post {
+id: number;
+user_id: number;
+title: string;
+body: string;
+}
+
+export interface Comment {
+id: number;
+post_id: number;
+name: string;
+email: string;
+body: string;
+}
+
+## **Testing (Jasmine + Karma)**
+
+L'app utilizza il sistema di testing di default di Angular:
+
+Jasmine → framework dei test
+
+Karma → test runner
+
+Avvio test unitari:
+`ng test`
+
+Karma aprirà un browser e mostrerà i risultati dei test Jasmine.
+
+## **Link App**
+
+https://leti74.github.io/Progetto-Angular-di-Letizia-Marra/
