@@ -33,16 +33,21 @@
 
         </form>
 
-
-
+        @if (isLoading) {
+        <div class="flex justify-center mt-10">
+            <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+        </div>
+        } @else {
         <div class="flex flex-col mt-7 gap-10 px-3">
-            @for (post of posts; track post.id) {
-            @if(posts){
-            <app-post-item [post]="post"></app-post-item>} @else {
-            <p>No Posts pubblished</p>
+            @if(posts.length > 0) {
+            @for(post of posts; track post.id) {
+            <app-post-item [post]="post"></app-post-item>
             }
+            } @else {
+            <p class="text-center text-gray-500 mt-10">No Posts published</p>
             }
         </div>
+        }
     </div>
 
 

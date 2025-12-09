@@ -1,7 +1,13 @@
+@if (isLoading) {
+<div class="flex justify-center mt-10">
+    <mat-progress-spinner mode="indeterminate" diameter="40" color="primary"></mat-progress-spinner>
+</div>
+} @else {
 @if (posts.length > 0) {
 @for (post of posts; track post.id) {
 <app-post-item [post]="post"></app-post-item>
 }
 } @else {
 <p class="text-center mt-10">No Posts published</p>
+}
 }

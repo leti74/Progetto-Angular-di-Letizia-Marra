@@ -31,10 +31,22 @@
 
         </form>
 
+        @if (isLoading) {
+        <div class="flex justify-center mt-10">
+            <mat-progress-spinner mode="indeterminate" diameter="40" color="primary"></mat-progress-spinner>
+        </div>
+        } @else {
+
         <div class="w-auto">
+            @if(users().length > 0) {
             <app-user-card [users]="users()" (id)="goToUserDetail($event)"
                 (userIdDeleted)="userDelete($event)"></app-user-card>
+            } @else {
+            <p class="text-center mt-10 text-gray-500">No Users found</p>
+            }
         </div>
+        }
+
 
 
 

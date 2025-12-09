@@ -7,17 +7,18 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPostDialog } from './components-posts/add-post-dialog/add-post-dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-posts',
-  imports: [PostItem, ReactiveFormsModule, Button],
+  imports: [PostItem, ReactiveFormsModule, Button, MatProgressSpinnerModule],
   templateUrl: './posts.html',
   styleUrl: './posts.css',
 })
 export class Posts implements OnInit {
   posts: Post[]= []
   allPosts: Post[]=[]
-
   postsForm!: FormGroup
+  isLoading: boolean= false;
 
   constructor(private usersService: UsersServices, private dialog: MatDialog){}
 
@@ -36,25 +37,37 @@ export class Posts implements OnInit {
   }
 
   loadPosts() {
-    this.usersService.getAllPosts().subscribe((posts: Post[]) => {
-      this.posts = posts;
-  this.allPosts= posts
-
-  let completed = 0
-      this.posts.forEach((post) => {
-
-        
-        this.usersService.getCommentsByPost(post.id).subscribe((comments) => {
-          post.comments = comments;
-          completed++
-        });
-        if(completed === this.posts.length){
-          this.applyFilters()
+    this.isLoading = true; // inizio loading
+  
+    this.usersService.getAllPosts().subscribe({
+      next: (posts: Post[]) => {
+        this.posts = posts;
+        this.allPosts = posts;
+  
+        let completed = 0;
+        if(posts.length === 0){
+          this.isLoading = false; 
         }
-       
-      });
+  
+        this.posts.forEach(post => {
+          this.usersService.getCommentsByPost(post.id).subscribe(comments => {
+            post.comments = comments;
+            completed++;
+            if(completed === this.posts.length) {
+              this.applyFilters();
+              this.isLoading = false; 
+            }
+          });
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false; 
+      }
     });
   }
+  
+  
 
   applyFilters() {
     const text = this.postsForm.value.searchText?.toLowerCase() || '';

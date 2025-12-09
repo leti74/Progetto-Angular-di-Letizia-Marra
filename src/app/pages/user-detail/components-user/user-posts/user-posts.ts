@@ -11,6 +11,8 @@ import { UsersServices } from '../../../../services/users-service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { PostItem } from "../../../../components/post-item/post-item";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 @Component({
@@ -25,7 +27,8 @@ import { PostItem } from "../../../../components/post-item/post-item";
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
-    PostItem
+    PostItem, 
+    MatProgressSpinnerModule
 ],
   templateUrl: './user-posts.html',
   styleUrl: './user-posts.css',
@@ -34,6 +37,7 @@ export class UserPosts implements OnInit {
 
   @Input() userID!: number;
   posts: Post[] = [];
+  isLoading: boolean = false; 
  
 
   constructor(private usersService: UsersServices) {}
@@ -44,16 +48,33 @@ export class UserPosts implements OnInit {
   }
 
   loadPosts() {
-    this.usersService.getPostsByUser(this.userID).subscribe((posts: Post[]) => {
-      this.posts = posts;
-      console.log(posts)
-
-      this.posts.forEach((post) => {
-        this.usersService.getCommentsByPost(post.id).subscribe((comments) => {
-          post.comments = comments;
+    this.isLoading = true;
+  
+    this.usersService.getPostsByUser(this.userID).subscribe({
+      next: (posts: Post[]) => {
+        this.posts = posts;
+        let completed = 0;
+  
+        if(posts.length === 0){
+          this.isLoading = false;
+        }
+  
+        this.posts.forEach(post => {
+          this.usersService.getCommentsByPost(post.id).subscribe({
+            next: comments => {
+              post.comments = comments;
+              completed++;
+              if(completed === this.posts.length) {
+                this.isLoading = false;
+              }
+            },
+            error: () => { completed++; if(completed === this.posts.length) this.isLoading = false; }
+          });
         });
-      });
+      },
+      error: () => this.isLoading = false
     });
   }
+  
 
 }

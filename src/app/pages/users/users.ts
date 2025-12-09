@@ -15,6 +15,7 @@ import { UsersServices } from '../../services/users-service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddUserDialog } from './componets-users/add-user-dialog/add-user-dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-users',
@@ -26,7 +27,8 @@ import { AddUserDialog } from './componets-users/add-user-dialog/add-user-dialog
     MatCardModule, 
     CommonModule, 
     Button, 
-    UserCard
+    UserCard,
+    MatProgressSpinnerModule
   ],
   templateUrl: './users.html',
   styleUrl: './users.css',
@@ -36,6 +38,7 @@ export class Users implements OnInit {
   usersForm!: FormGroup;
   users = signal<User[]>([]);
   allUsers: User[] = [];
+  isLoading: boolean = false;
 
   constructor(private usersService: UsersServices, private router: Router, private dialog: MatDialog) {}
 
@@ -75,13 +78,20 @@ export class Users implements OnInit {
       });
   }
 
-  loadUsers(page: number = 1){
-    const forPage= this.usersForm.get('forPage')?.value || 10
-    this.usersService.getUsers(page, forPage).subscribe(users => {
-      this.allUsers=users
-      this.users.set(users)
-    })
+  loadUsers(page: number = 1) {
+    const forPage = this.usersForm.get('forPage')?.value || 10;
+    this.isLoading = true;
 
+    this.usersService.getUsers(page, forPage).subscribe({
+      next: (users) => {
+        this.allUsers = users;
+        this.users.set(users);
+        this.isLoading = false; 
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   goToUserDetail(id: number) {
