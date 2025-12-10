@@ -1,5 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { withHashLocation } from '@angular/router';
 
 import { routes } from './app.routes';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
@@ -9,6 +10,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
+    provideRouter(routes, withHashLocation())
   ]
 };

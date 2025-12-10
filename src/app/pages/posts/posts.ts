@@ -37,7 +37,7 @@ export class Posts implements OnInit {
   }
 
   loadPosts() {
-    this.isLoading = true; // inizio loading
+    this.isLoading = true; 
   
     this.usersService.getAllPosts().subscribe({
       next: (posts: Post[]) => {
