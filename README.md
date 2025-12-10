@@ -1,7 +1,5 @@
-<<<<<<< HEAD
-#Progetto Angular per Gestione Utenti & Post via API
 
-Progetto Angular – Dashboard utenti/post
+#Progetto Angular per Gestione Utenti & Post via API
 
 ## **Descrizione del progetto**
 
@@ -63,7 +61,6 @@ Per generare nuovi componenti / moduli / servizi (scaffolding Angular CLI):
 
 La logica di interazione con API esterne (GoRest) è gestita tramite servizi Angular — per garantire separazione di responsabilità (UI / dati).
 
-=======
 # Progetto Angular – Dashboard utenti/post
 
 ## **Descrizione del progetto**
@@ -130,7 +127,6 @@ Per generare nuovi componenti / moduli / servizi (scaffolding Angular CLI):
 
 La logica di interazione con API esterne (GoRest) è gestita tramite servizi Angular — per garantire separazione di responsabilità (UI / dati).
 
->>>>>>> 6e7a02758b3dce68b482b04c775eea48d3173ac8
 Componenti modulari + routing per gestire le varie viste (lista utenti, dettaglio, post, commenti, login).
 
 Uso di HTTP requests per comunicazione con backend esterno (GET, POST, DELETE).
