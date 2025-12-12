@@ -6,19 +6,6 @@
 Questo progetto è una dashboard frontend realizzata con Angular (versione 20.1.3) che consente di gestire utenti e post tramite integrazione con le REST-API di GoRest. L’app include: autenticazione via token, operazioni CRUD (creazione, lettura, aggiornamento, cancellazione), ricerca, e gestione dei commenti su post.
 GitHub
 
-## **Librerie & Tecnologie Usate**
-
-- Angular 20.1.3 (generato con Angular CLI)
-- GitHub
-- TypeScript, HTML, CSS/SCSS per frontend
-- REST API (GoRest) per backend — l’app comunica con servizi esterni per utenti, post e commenti.
-
-## **Struttura del progetto**
-
-Alla root del progetto trovi file di configurazione standard di Angular: angular.json, package.json, tsconfig.json, etc.
-
-La cartella src/ contiene il codice sorgente dell’app Angular; la struttura tipica include componenti, servizi, moduli, template, stili.
-
 ## **Funzionalità dell’applicazione**
 
 Attualmente l’app consente:
@@ -30,43 +17,6 @@ Attualmente l’app consente:
 - Gestione commenti su post (creazione / visualizzazione)
 - Navigazione multipagina (via router Angular)
 - Interfaccia frontend web (form, liste, tabelle o card, dettagli)
-
-## **Come configurare e avviare l’app in locale**
-
-Per eseguire il progetto localmente, segui questi passi:
-
-`git clone https://github.com/leti74/`
-`Progetto-Angular-di-Letizia-Marra.git`
-`cd Progetto-Angular-di-Letizia-Marra`
-`npm install`
-`ng serve`
-
-Apri il browser a:
-
-http://localhost:4200/
-
-L’app si ricaricherà automaticamente ad ogni modifica del sorgente.
-GitHub
-
-Per build di produzione:
-
-`ng build`
-
-Per generare nuovi componenti / moduli / servizi (scaffolding Angular CLI):
-
-`ng generate component nome-componente`
-`ng generate service nome-servizio`
-
-## **Approfondimenti: come è stata sviluppata l’app**
-
-La logica di interazione con API esterne (GoRest) è gestita tramite servizi Angular — per garantire separazione di responsabilità (UI / dati).
-
-# Progetto Angular – Dashboard utenti/post
-
-## **Descrizione del progetto**
-
-Questo progetto è una dashboard frontend realizzata con Angular (versione 20.1.3) che consente di gestire utenti e post tramite integrazione con le REST-API di GoRest. L’app include: autenticazione via token, operazioni CRUD (creazione, lettura, aggiornamento, cancellazione), ricerca, e gestione dei commenti su post.
-GitHub
 
 ## **Librerie & Tecnologie Usate**
 
@@ -75,27 +25,9 @@ GitHub
 - Angular Router (gestione della navigazione tra pagine)
 - Angular Material (componenti UI)
 - RxJS (gestione di Observable e operazioni asincrone)
-- TypeScript, HTML, CSS/SCSS per frontend
+- TypeScript, HTML, CSS per frontend
 - REST API, GoRest, per backend (l’app comunica con servizi esterni per utenti, post e commenti.)
 - Jasmine + Karma (per testing)
-
-## **Struttura del progetto**
-
-Alla root del progetto trovi file di configurazione standard di Angular: angular.json, package.json, tsconfig.json, etc.
-
-La cartella src/ contiene il codice sorgente dell’app Angular; la struttura tipica include componenti, servizi, moduli, template, stili.
-
-## **Funzionalità dell’applicazione**
-
-Attualmente l’app consente:
-
-- Autenticazione tramite token verso API (login / validazione)
-- Creazione, lettura, modifica e cancellazione di utenti e post
-- Ricerca utenti / post
-- Visualizzazione dettagli utenti
-- Gestione commenti su post (creazione / visualizzazione)
-- Navigazione multipagina (via router Angular)
-- Interfaccia frontend web (form, liste, tabelle o card, dettagli)
 
 ## **Come configurare e avviare l’app in locale**
 
