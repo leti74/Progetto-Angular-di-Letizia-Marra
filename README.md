@@ -1,7 +1,7 @@
 Progetto Angular per Gestione Utenti & Post via API
 
 ## **Descrizione del progetto**
-
+L’applicazione ha l’obiettivo di migliorare la vita nelle città urbane, permettendo agli utenti di condividere idee, segnalazioni e commenti per supportare il patrimonio culturale e naturale, e favorire legami sociali positivi.
 Questo progetto è una dashboard frontend realizzata con Angular (versione 20.1.3) che consente di gestire utenti e post tramite integrazione con le REST-API di GoRest. L’app include: autenticazione via token, operazioni CRUD (creazione, lettura, aggiornamento, cancellazione), ricerca, e gestione dei commenti su post.
 GitHub
 
@@ -9,17 +9,47 @@ GitHub
 
 Attualmente l’app consente:
 
-- Autenticazione tramite token verso API (login / validazione)
-- Creazione, lettura, modifica e cancellazione di utenti e post
-- Ricerca utenti / post
-- Visualizzazione dettagli utenti
-- Gestione commenti su post (creazione / visualizzazione)
-- Navigazione multipagina (via router Angular)
-- Interfaccia frontend web (form, liste, tabelle o card, dettagli)
+1. Login
+
+- Accesso tramite token speciale generato su GoREST Login
+- Il token viene salvato in sessionStorage e utilizzato per tutte le chiamate HTTP.
+- Funzionalità di logout per terminare la sessione.
+
+2. Elenco utenti
+
+- Visualizzazione lista utenti con informazioni base.
+- Ricerca per nome o email.
+- Creazione di nuovi utenti.
+- Eliminazione utenti.
+
+3. Dettaglio utente
+
+- Visualizzazione completa dei dettagli dell’utente.
+- Elenco dei post associati all’utente.
+- Visualizzazione dei commenti di ogni post.
+- Inserimento di nuovi commenti (opzionale, implementato).
+
+4. Elenco post
+
+- Visualizzazione di tutti i post presenti.
+- Ricerca post per titolo o contenuto.
+- Visualizzazione commenti di ogni post.
+- Creazione di nuovi post.
+
+5. Test unitari
+
+- Implementati test unitari per componenti e servizi principali.
+- Coverage superiore al 60%.
+
+6. Struttura modulare (opzionale)
+
+- L’applicazione utilizza multi-modulo e lazy loading per ottimizzare le performance.
+
 
 ## **Librerie & Tecnologie Usate**
 
 - Angular 20.1.3 (generato con Angular CLI)
+- TypeScript
 - Angular HTTP Client (comunicazione con API)
 - Angular Router (gestione della navigazione tra pagine)
 - Angular Material (componenti UI)
@@ -32,8 +62,7 @@ Attualmente l’app consente:
 
 Per eseguire il progetto localmente, segui questi passi:
 
-`git clone https://github.com/leti74/`
-`Progetto-Angular-di-Letizia-Marra.git`
+`git clone https://github.com/leti74/Progetto-Angular-di-Letizia-Marra.git`
 `cd Progetto-Angular-di-Letizia-Marra`
 `npm install`
 `ng serve`
