@@ -1,5 +1,5 @@
 
-#Progetto Angular per Gestione Utenti & Post via API
+Progetto Angular per Gestione Utenti & Post via API
 
 ## **Descrizione del progetto**
 
