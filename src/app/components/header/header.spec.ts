@@ -2,77 +2,83 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Header } from './header';
 import { AuthService } from '../../auth/auth-service';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Component } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 
 class AuthServiceMock {
-isAuthenticatedValue = false;
-isAuthenticated() { return this.isAuthenticatedValue; }
-logout = jasmine.createSpy('logout');
+  isAuthenticated() {
+    return true;
+  }
+
+  logout() {}
 }
 
+describe('Header (Angular 20)', () => {
+  let fixture: ComponentFixture<Header>;
+  let component: Header;
+  let authService: AuthService;
+  let router: Router;
 
-@Component({ template: '' })
-class DummyComponent {}
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Header], 
+      providers: [
+        { provide: AuthService, useClass: AuthServiceMock },
+        provideRouter([]), 
+      ],
+    }).compileComponents();
 
-describe('Header (standalone)', () => {
-let component: Header;
-let fixture: ComponentFixture<Header>;
-let authService: AuthServiceMock;
-let router: Router;
+    fixture = TestBed.createComponent(Header);
+    component = fixture.componentInstance;
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
 
-beforeEach(async () => {
-authService = new AuthServiceMock();
-
-await TestBed.configureTestingModule({
-  imports: [
-    Header, // componente standalone va qui
-    RouterTestingModule.withRoutes([
-      { path: 'login', component: DummyComponent },
-      { path: 'users', component: DummyComponent },
-      { path: 'posts', component: DummyComponent }
-    ])
-  ],
-  providers: [
-    { provide: AuthService, useValue: authService }
-  ]
-}).compileComponents();
-
-fixture = TestBed.createComponent(Header);
-component = fixture.componentInstance;
-router = TestBed.inject(Router);
-fixture.detectChanges();
+    fixture.detectChanges();
+  });
 
 
-});
+  it('should render toolbar when user is authenticated', () => {
+    const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
+    expect(toolbar).toBeTruthy();
+  });
 
-it('should create header component', () => {
-expect(component).toBeTruthy();
-});
+ 
+  it('should render Users and Posts links', () => {
+    const usersLink = fixture.debugElement.query(By.css('a[routerLink="/users"]'));
+    const postsLink = fixture.debugElement.query(By.css('a[routerLink="/posts"]'));
 
-it('should display logout button when authenticated', () => {
-authService.isAuthenticatedValue = true;
-fixture.detectChanges();
-const compiled = fixture.nativeElement as HTMLElement;
-expect(compiled.querySelector('button.logout-link')).not.toBeNull();
-});
+    expect(usersLink).toBeTruthy();
+    expect(postsLink).toBeTruthy();
+  });
 
-it('should display login link when not authenticated', () => {
-authService.isAuthenticatedValue = false;
-fixture.detectChanges();
-const compiled = fixture.nativeElement as HTMLElement;
-const loginLink = compiled.querySelector('a.logo');
-expect(loginLink).not.toBeNull();
-expect(loginLink?.textContent).toContain('Login Page');
-});
 
-it('should call logout() and navigate to login', () => {
-authService.isAuthenticatedValue = true;
-fixture.detectChanges();
-spyOn(router, 'navigate');
-component.logout();
-expect(authService.logout).toHaveBeenCalled();
-expect(router.navigate).toHaveBeenCalledWith(['login']);
-});
+  it('should call logout on AuthService when logout button is clicked', () => {
+    spyOn(authService, 'logout');
+
+    const logoutBtn = fixture.debugElement.query(By.css('.logout-link'));
+    logoutBtn.nativeElement.click();
+
+    expect(authService.logout).toHaveBeenCalled();
+  });
+
+
+  it('should navigate to /login after logout', () => {
+    spyOn(router, 'navigate');
+    spyOn(authService, 'logout');
+
+    component.logout();
+
+    expect(authService.logout).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['login']);
+  });
+
+
+  it('should NOT render toolbar when user is NOT authenticated', () => {
+    spyOn(authService, 'isAuthenticated').and.returnValue(false);
+    fixture.detectChanges();
+
+    const toolbar = fixture.debugElement.query(By.css('mat-toolbar'));
+    expect(toolbar).toBeNull();
+  });
 });

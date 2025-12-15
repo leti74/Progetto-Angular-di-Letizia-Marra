@@ -27,6 +27,7 @@ errorMsg= '';
 loading = false;
 
 ngOnInit(): void {
+  this.authService.logout();
 this.loginForm = new FormGroup(
   {
     token: new FormControl('',Validators.required)

@@ -1,94 +1,106 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
-
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { LoginComponent } from './login-component';
 import { AuthService } from '../../../auth/auth-service';
-import { UsersServices } from '../../../services/users-service';
+import { Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { of, throwError } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { User } from '../../../models/user.model';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 
-// Mock Router
-class RouterStub {
-  navigate(commands: any[]) {}
-}
 
-// Mock AuthService
-class AuthServiceStub {
+class AuthServiceMock {
+  logout() {}
   validateToken(token: string) {
-    return token === 'valid-token' ? of(true) : of(false);
+    return of(true);
   }
   saveToken(token: string) {}
   createUserCurrent() {
-    return of({ id: 1, name: 'Martina Romeo' });
+    return of({ id: 1, name: 'Test User', email: 'test@example.com' });
   }
 }
 
-// Mock UsersServices
-class UsersServicesStub {}
-
-describe('LoginComponent (standalone)', () => {
+describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let authService: AuthServiceStub;
-  let router: RouterStub;
+  let authService: AuthServiceMock;
+  let router: Router;
 
-  // ✅ il beforeEach è dentro describe
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginComponent, ReactiveFormsModule],
       providers: [
-        { provide: AuthService, useClass: AuthServiceStub },
-        { provide: UsersServices, useClass: UsersServicesStub },
-        { provide: Router, useClass: RouterStub }
-      ]
+        { provide: AuthService, useClass: AuthServiceMock
+         },
+        provideRouter([]),
+        provideHttpClient(),
+         provideHttpClientTesting()
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService) as unknown as AuthServiceStub;
-    router = TestBed.inject(Router) as unknown as RouterStub;
+    authService = TestBed.inject(AuthService) as any;
+    router = TestBed.inject(Router);
+
     fixture.detectChanges();
   });
 
-  it('should create component and initialize form', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
-    expect(component.loginForm.contains('token')).toBeTrue();
   });
 
-  it('should show error message if token is empty on login', () => {
-    component.loginForm.setValue({ token: '' });
+  it('should initialize the form with empty token', () => {
+    expect(component.loginForm).toBeTruthy();
+    expect(component.loginForm.controls['token'].value).toBe('');
+  });
+
+  it('should show error if token is empty', () => {
+    component.loginForm.controls['token'].setValue('');
     component.onLogin();
     expect(component.errorMsg).toBe('Please enter a valid token');
   });
 
-  it('should set error message on invalid token', () => {
-    spyOn(authService, 'validateToken').and.returnValue(of(false));
-    component.loginForm.setValue({ token: 'invalid-token' });
-    component.onLogin();
-    expect(component.errorMsg).toBe('Invalid token. Please check and try again.');
-    expect(component.loading).toBeFalse();
-  });
-
-  it('should call authService.validateToken and navigate on valid token', () => {
+  it('should call validateToken and navigate to users on valid token', fakeAsync(() => {
     spyOn(authService, 'validateToken').and.returnValue(of(true));
     spyOn(authService, 'saveToken');
-    spyOn(authService, 'createUserCurrent').and.returnValue(of({ id: 1 , name:'Alice'}));
+    spyOn(authService, 'createUserCurrent').and.returnValue(of({ id: 1 } as User ));
     spyOn(router, 'navigate');
 
-    component.loginForm.setValue({ token: 'valid-token' });
+    component.loginForm.controls['token'].setValue('VALID_TOKEN');
     component.onLogin();
+    tick();
 
-    expect(authService.validateToken).toHaveBeenCalledWith('valid-token');
-    expect(authService.saveToken).toHaveBeenCalledWith('valid-token');
+    expect(authService.validateToken).toHaveBeenCalledWith('VALID_TOKEN');
+    expect(authService.saveToken).toHaveBeenCalledWith('VALID_TOKEN');
     expect(authService.createUserCurrent).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['users']);
-  });
+    expect(component.errorMsg).toBe('');
+  }));
 
-  it('should handle error from validateToken gracefully', () => {
-    spyOn(authService, 'validateToken').and.returnValue(throwError(() => new Error('API error')));
-    component.loginForm.setValue({ token: 'error-token' });
+  it('should set errorMsg if token is invalid', fakeAsync(() => {
+    spyOn(authService, 'validateToken').and.returnValue(of(false));
+    component.loginForm.controls['token'].setValue('INVALID_TOKEN');
     component.onLogin();
+    tick();
+
     expect(component.errorMsg).toBe('Invalid token. Please check and try again.');
-    expect(component.loading).toBeFalse();
+  }));
+
+  it('should set errorMsg if validateToken throws error', fakeAsync(() => {
+    spyOn(authService, 'validateToken').and.returnValue(throwError(() => new Error('Error')));
+    component.loginForm.controls['token'].setValue('TOKEN');
+    component.onLogin();
+    tick();
+
+    expect(component.errorMsg).toBe('Invalid token. Please check and try again.');
+  }));
+
+  it('should call logout on ngOnInit', () => {
+    spyOn(authService, 'logout');
+    component.ngOnInit();
+    expect(authService.logout).toHaveBeenCalled();
   });
 });

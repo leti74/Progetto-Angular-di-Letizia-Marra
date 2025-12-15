@@ -1,4 +1,5 @@
-<app-header></app-header>
+@if(!router.url.includes('login')){
+<app-header></app-header>}
 @if (isSubscribed) {
 <router-outlet></router-outlet>
 }@else{

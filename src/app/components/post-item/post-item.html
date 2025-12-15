@@ -1,81 +1,85 @@
-<div class="pb-10! bg-gray-100! p-6! rounded-xl!">
-
-    <h3 class="text-lg! font-semibold! text-gray-900! mt-2">{{ post.title }}</h3>
-    <p class="text-gray-700! leading-relaxed! mb-4!">{{ post.body }}</p>
-
-    <mat-expansion-panel class="comment-panel">
+<div class="bg-gray-100 rounded-xl w-full sm:max-w-3xl p-4 pb-5">
 
 
-        <mat-expansion-panel-header class="px-4! py-2!">
-            <mat-panel-title class="font-medium! text-[#0055a5]!">
+    <div class="p-4">
+        <h3 class="text-lg font-semibold text-gray-900 mt-2 wrap-break-word">
+            {{ post.title }}
+        </h3>
+
+        <p class="text-gray-700 leading-relaxed mb-4 wrap-break-word">
+            {{ post.body }}
+        </p>
+    </div>
+
+
+    <mat-expansion-panel class="w-full">
+
+        <mat-expansion-panel-header class="px-4 py-2 w-full">
+            <mat-panel-title class="font-medium text-[#0055a5] w-full wrap-break-word">
                 Comments ({{ post.comments?.length || 0 }})
             </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="px-4! py-4! bg-gray-50! comment-content">
+        <div class="px-4 py-4 bg-gray-50 w-full">
+
 
             @if ((post.comments?.length ?? 0) > 0) {
 
-            <div class="comment-list">
+            <div class="flex flex-col gap-4 w-full">
                 @for (comment of post.comments; track comment.id) {
-                <div class="comment-item">
-                    <p class="text-gray-800! text-sm! break-words! mb-5">
-                        <strong>{{ comment.email }}:</strong> {{ comment.body }}
-                    </p>
-
-                </div>
+                <p class="text-gray-800 text-sm wrap-break-word">
+                    <strong>{{ comment.email }}:</strong> {{ comment.body }}
+                </p>
                 }
             </div>
 
-            <div class="comment-form-wrapper">
-                <form [formGroup]="commentForm" class="flex! flex-col! gap-4! comment-form">
 
-                    <div class="flex! flex-col!">
-                        <label class="mb-3! text-gray-700! font-medium!">New comment</label>
-                        <input formControlName="body" placeholder="Write a comment..."
-                            class="bg-gray-100! w-full! px-4! py-2! border! border-gray-300! rounded-lg! focus:outline-none! focus:ring-[#0055a5]/40! focus:border-[#0055a5]! transition!" />
-                    </div>
+            <form [formGroup]="commentForm" class="flex flex-col gap-4 mt-6 w-full">
+                <div class="flex flex-col w-full">
+                    <label class="mb-2 text-gray-700 font-medium">
+                        New comment
+                    </label>
 
-                    <button mat-raised-button color="primary"
-                        class="bg-[#0055a5]! hover:bg-[#004080]! text-white! px-5! py-2! rounded-lg! shadow! transition!"
-                        (click)="addComment(post.id)">
-                        Send
-                    </button>
+                    <input formControlName="body" placeholder="Write a comment..." class="bg-gray-100 w-full px-4 py-2 border border-gray-300 rounded-lg
+                       focus:outline-none focus:ring-2 focus:ring-[#0055a5]/40
+                       focus:border-[#0055a5] transition" />
+                </div>
 
-                </form>
-            </div>
+                <button mat-raised-button color="primary" class="bg-[#0055a5] hover:bg-[#004080] text-white px-5 py-2
+                     rounded-lg shadow transition w-full sm:w-auto" (click)="addComment(post.id)">
+                    Send
+                </button>
+            </form>
 
             }
 
+
             @else {
 
-            <div class="text-center text-gray-600! mb-4! font-medium!">
+            <div class="text-center text-gray-600 mb-4 font-medium">
                 No comments yet — be the first to write one!
             </div>
 
-            <div class="comment-form-wrapper max-w-xl mx-auto">
-                <form [formGroup]="commentForm" class="flex! flex-col! gap-4! comment-form">
+            <form [formGroup]="commentForm" class="flex flex-col gap-4 w-full sm:max-w-xl mx-auto">
+                <div class="flex flex-col w-full">
+                    <label class="mb-2 text-gray-700 font-medium">
+                        New comment
+                    </label>
 
-                    <div class="flex! flex-col!">
-                        <label class="mb-5! text-gray-700! font-medium!">New comment</label>
-                        <input formControlName="body" placeholder="Write a comment..."
-                            class="bg-gray-100! w-full! px-4! py-2! mb-2 border! border-gray-300! rounded-lg! focus:outline-none! focus:ring-[#0055a5]/40! focus:border-[#0055a5]! transition!" />
-                    </div>
+                    <input formControlName="body" placeholder="Write a comment..." class="bg-gray-100 w-full px-4 py-2 border border-gray-300 rounded-lg
+                       focus:outline-none focus:ring-2 focus:ring-[#0055a5]/40
+                       focus:border-[#0055a5] transition" />
+                </div>
 
-                    <button mat-raised-button color="primary"
-                        class="bg-[#0055a5]! hover:bg-[#004080]! text-white! px-5! py-2! rounded-lg! shadow! transition!"
-                        (click)="addComment(post.id)">
-                        Send
-                    </button>
-
-                </form>
-            </div>
+                <button mat-raised-button color="primary" class="bg-[#0055a5] hover:bg-[#004080] text-white px-5 py-2
+                     rounded-lg shadow transition w-full sm:w-auto" (click)="addComment(post.id)">
+                    Send
+                </button>
+            </form>
 
             }
 
         </div>
 
-
     </mat-expansion-panel>
-
 </div>

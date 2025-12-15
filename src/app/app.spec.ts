@@ -14,6 +14,7 @@ class AuthServiceMock {
   private authenticated = false;
   isAuthenticated() { return this.authenticated; }
   setAuth(value: boolean) { this.authenticated = value; }
+  logout(){}
 }
 
 class UsersServicesMock {}
