@@ -4,12 +4,13 @@ import { Header } from "./components/header/header";
 import { Login } from './pages/login/login';
 import { AuthService } from './auth/auth-service';
 import { Router, RouterModule } from '@angular/router';
+import { Footer } from './components/footer/footer';
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, Login],
+  imports: [RouterOutlet, Header, Login, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
