@@ -2,7 +2,13 @@
 <app-header></app-header>
 }
 
+@if(isSubscribed){
 <router-outlet></router-outlet>
+}
+
+@if(!isSubscribed){
+<app-login></app-login>
+}
 
 @if(!router.url.includes('login')){
 <app-footer></app-footer>

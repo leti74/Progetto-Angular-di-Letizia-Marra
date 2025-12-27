@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { HttpTestingController } from '@angular/common/http/testing';
+
+
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { AuthService } from './auth-service';
 import { UsersServices } from '../services/users-service';
@@ -29,9 +29,8 @@ describe('AuthService', () => {
       providers: [
         AuthService,
         { provide: UsersServices, useClass: MockUsersServices },
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+      ],
+      imports: [HttpClientTestingModule] 
     });
 
     service = TestBed.inject(AuthService);
