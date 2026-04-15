@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/auth/auth-guard.spec.ts", "src/app/auth/auth-guard.ts"],
-  "sourcesContent": ["import { TestBed } from '@angular/core/testing';\r\nimport { CanActivateFn } from '@angular/router';\r\n\r\nimport { authGuard } from './auth-guard';\r\n\r\ndescribe('authGuard', () => {\r\n  const executeGuard: CanActivateFn = (...guardParameters) => \r\n      TestBed.runInInjectionContext(() => authGuard(...guardParameters));\r\n\r\n  beforeEach(() => {\r\n    TestBed.configureTestingModule({});\r\n  });\r\n\r\n  it('should be created', () => {\r\n    expect(executeGuard).toBeTruthy();\r\n  });\r\n});\r\n", "import { inject } from '@angular/core';\r\nimport { CanActivateFn } from '@angular/router';\r\nimport { AuthService } from './auth-service';\r\n\r\nexport const authGuard: CanActivateFn = (route, state) => {\r\n  return inject(AuthService).isAuthenticated();\r\n};\r\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;;;ACAA;AAEA;AAEO,IAAM,YAA2B,CAAC,OAAO,UAAS;AACvD,SAAO,OAAO,WAAW,EAAE,gBAAe;AAC5C;;;ADDA,SAAS,aAAa,MAAK;AACzB,QAAM,eAA8B,IAAI,oBACpC,QAAQ,sBAAsB,MAAM,UAAU,GAAG,eAAe,CAAC;AAErE,aAAW,MAAK;AACd,YAAQ,uBAAuB,CAAA,CAAE;EACnC,CAAC;AAED,KAAG,qBAAqB,MAAK;AAC3B,WAAO,YAAY,EAAE,WAAU;EACjC,CAAC;AACH,CAAC;",
-  "names": []
-}
