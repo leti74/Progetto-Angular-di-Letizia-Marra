@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pages/users/users.css"],
+  "sourcesContent": [".users-page {\r\n  padding: 1.5rem;\r\n  padding-top: 2.3rem;\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 1rem;\r\n}\r\n\r\n.users-toolbar {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 1rem;\r\n  flex-wrap: wrap;\r\n  width: 100%;\r\n  max-width: 100%;\r\n  box-sizing: border-box;\r\n}\r\n\r\n.search-field {\r\n  flex: 1;\r\n  min-width: 250px;\r\n}\r\n\r\n@media (max-width: 600px) {\r\n  .users-toolbar {\r\n    flex-direction: column;\r\n    align-items: stretch;\r\n    gap: 0.75rem;\r\n  }\r\n\r\n  form {\r\n    flex-direction: column;\r\n    align-items: stretch;\r\n  }\r\n\r\n  .search-field {\r\n    width: 100%;\r\n    min-width: unset;\r\n  }\r\n}\r\n"],
+  "mappings": ";AAAA,CAAA;AACE,WAAA;AACA,eAAA;AACA,WAAA;AACA,kBAAA;AACA,OAAA;AACF;AAEA,CAAA;AACE,WAAA;AACA,eAAA;AACA,OAAA;AACA,aAAA;AACA,SAAA;AACA,aAAA;AACA,cAAA;AACF;AAEA,CAAA;AACE,QAAA;AACA,aAAA;AACF;AAEA,OAAA,CAAA,SAAA,EAAA;AACE,GAhBF;AAiBI,oBAAA;AACA,iBAAA;AACA,SAAA;AACF;AAEA;AACE,oBAAA;AACA,iBAAA;AACF;AAEA,GAjBF;AAkBI,WAAA;AACA,eAAA;AACF;AACF;",
+  "names": []
+}

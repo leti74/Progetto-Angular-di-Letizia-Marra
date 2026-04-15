@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:jit:template:src\\app\\components\\button\\button.html", "angular:jit:style:src\\app\\components\\button\\button.css", "src/app/components/button/button.ts"],
+  "sourcesContent": ["<button type={{type()}} mat-flat-button color=\"primary\" (click)=\"buttonClick()\" class=\"rounded-lg!\">\r\n    <mat-icon>{{icon()}}</mat-icon> {{label()}}\r\n</button>", "/* src/app/components/button/button.css */\n/*# sourceMappingURL=button.css.map */\n", "import { Component, input, output } from '@angular/core';\r\nimport { MatButtonModule } from '@angular/material/button';\r\nimport {  MatIconModule } from '@angular/material/icon';\r\n@Component({\r\n  selector: 'app-button',\r\n  imports: [MatButtonModule, MatIconModule],\r\n  templateUrl: './button.html',\r\n  styleUrl: './button.css',\r\n})\r\nexport class Button {\r\nlabel= input('')\r\nicon= input('')\r\nbtnClick= output()\r\ntype= input('')\r\n\r\nbuttonClick(){\r\n this.btnClick.emit()\r\n}\r\n}\r\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA,IAAAA,eAAA;AAAA;AAAA;AAAA;AAAA;;;ACAA,IAAAC;AAAA,IAAAC,eAAA;AAAA;AAAA,IAAAD,kBAAA;AAAA;AAAA;;;ICSa;;;;;;;AATb;AACA;AACA;;AAOO,IAAM,SAAN,MAAME,QAAM;cACZ,MAAM,EAAE;aACT,MAAM,EAAE;MACd,WAAU,OAAM;aACV,MAAM,EAAE;MAEd,cAAW;AACV,aAAK,SAAS,KAAI;MACnB;;;;;;;;AARa,aAAM,WAAA;MANlB,UAAU;QACT,UAAU;QACV,SAAS,CAAC,iBAAiB,aAAa;QACxC,UAAA;;OAED;OACY,MAAM;;;",
+  "names": ["init_button", "button_default", "init_button", "Button"]
+}
