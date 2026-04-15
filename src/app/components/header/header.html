@@ -1,10 +1,9 @@
-@if(authService.isAuthenticated()){
 <mat-toolbar class="toolbar">
 
     <a class=" logo ml-3">Logo</a>
 
     <span class="example-spacer"></span>
-
+    @if(authService.isAuthenticated()){
     <div class="header-actions">
 
         <a routerLink="/users" routerLinkActive="active-link">Users</a>
@@ -14,6 +13,5 @@
 
         <button routerLink="/login" class="logout-link" (click)="logout()">Logout</button>
 
-    </div>
+    </div>}
 </mat-toolbar>
-}
